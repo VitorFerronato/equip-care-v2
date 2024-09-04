@@ -1,0 +1,48 @@
+$body-color: #f5f5f5;
+
+$primary-color-dark: #1e3363;
+
+$dark-bg-color: #fdfdfd;
+$light-thin-color: #cccccca9;
+$success-color: green;
+
+$header-color: #12192c;
+
+// DEFINIDAS
+$secondary-color: #ec4c37;
+
+// EM TESTE
+$teste01-color: #2c3e50;
+$teste02-color: #12192c;
+$teste03-color: #1e3363;
+
+//Background-colors
+.bg-primary-color-dark {
+  background-color: $teste02-color;
+}
+
+.bg-second-color {
+  background-color: $teste01-color;
+}
+
+// //Text-colors
+.text-primary-color {
+  color: $teste01-color;
+}
+
+.text-secondary-color {
+  color: $secondary-color;
+}
+
+.text-opacity {
+  color: #ffffffbb;
+}
+
+// //Borders
+// .border-left-primary-color {
+//   border-left: 5px solid $primary-color;
+//   border-radius: 5px;
+// }
+// .border-bottom-thin {
+//   border-bottom: 1px solid $light-thin-color;
+// }

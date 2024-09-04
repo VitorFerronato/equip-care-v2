@@ -1,0 +1,22 @@
+<template>
+  <div>
+    <Header />
+
+    <Sidebar />
+
+    <div class="layout">
+      <NuxtPage />
+    </div>
+  </div>
+</template>
+
+<script setup>
+</script>
+
+<style lang="scss" scoped>
+.layout {
+  height: calc(100vh - $header-height);
+  padding: 3rem 0 0 8rem;
+  background-color: $body-color;
+}
+</style>
