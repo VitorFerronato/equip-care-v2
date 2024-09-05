@@ -16,7 +16,7 @@
 <style lang="scss" scoped>
 .layout {
   height: calc(100vh - $header-height);
-  padding: 3rem 0 0 8rem;
+  padding: 3rem 5rem 0 8rem;
   background-color: $body-color;
 }
 </style>

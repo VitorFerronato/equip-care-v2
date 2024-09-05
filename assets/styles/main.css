@@ -22,3 +22,26 @@ a:visited {
   left: 50%;
   transform: translate(-50%, -50%);
 }
+
+/* === Table === */
+table {
+  border: 0.5px solid #ccc;
+}
+thead tr {
+  background-color: #ccc !important;
+}
+
+thead tr th {
+  font-weight: bold;
+  font-size: 15px;
+  border-right: 1px solid #fff;
+}
+
+thead tr th:last-child,
+tbody tr td:last-child {
+  border-right: none;
+}
+
+tbody tr td {
+  background-color: #ececec7e;
+}
