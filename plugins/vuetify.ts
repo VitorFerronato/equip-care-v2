@@ -1,6 +1,7 @@
 // plugins/vuetify.js
 import { createVuetify } from "vuetify";
 import {
+  VBreadcrumbs,
   VBtn,
   VCheckbox,
   VDataTable,
@@ -12,6 +13,10 @@ import {
   VNavigationDrawer,
   VProgressCircular,
   VTextField,
+  VCombobox,
+  VCard,
+  VRow,
+  VCol
 } from "vuetify/components";
 import * as directives from "vuetify/directives";
 
@@ -20,6 +25,7 @@ export default defineNuxtPlugin((nuxtApp) => {
     components: {
       VForm,
       VTextField,
+      VCombobox,
       VCheckbox,
       VBtn,
       VIcon,
@@ -29,6 +35,9 @@ export default defineNuxtPlugin((nuxtApp) => {
       VList,
       VListItem,
       VDataTable,
+      VCard,
+      VRow,
+      VCol
     },
     directives,
   });

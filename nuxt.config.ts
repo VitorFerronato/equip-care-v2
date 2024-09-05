@@ -3,6 +3,9 @@ export default defineNuxtConfig({
   compatibilityDate: "2024-04-03",
   devtools: { enabled: true },
   runtimeConfig: {
+    firebaseAdmin: {
+      serviceAccount: process.env.FIRE_ADMIN_SA || "",
+    },
     public: {
       apiKey: process.env.FIRE_APIKEY,
       authDomain: process.env.FIRE_AUTHDOMAIN,
@@ -18,6 +21,8 @@ export default defineNuxtConfig({
     "@pinia-plugin-persistedstate/nuxt",
     "@nuxtjs/google-fonts",
   ],
+
+  plugins: ["~/plugins/vue-the-mask.js"],
 
   vite: {
     ssr: {

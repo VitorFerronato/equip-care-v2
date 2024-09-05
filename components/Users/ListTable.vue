@@ -1,10 +1,20 @@
 <template>
   <div>
-    <v-data-table :headers="headers" :items="items" hide-default-footer>
-      <template v-slot:[`item.userName`]="{ item }">
+    <v-data-table
+      :headers="headers"
+      :items="items"
+      :disabled="isLoading"
+      :loading="isLoading"
+      :items-per-page="1000000"
+      no-data-text="Não foram encontrados resultados"
+      no-results-text="Não foram encontrados resultados"
+      loading-text="Carregando usuários..."
+      hide-default-footer
+    >
+      <template v-slot:[`item.displayName`]="{ item }">
         <div class="d-flex align-center justify-center ga-2">
           <v-icon size="25"> mdi-account </v-icon>
-          {{ item.userName }}
+          {{ item.displayName }}
         </div>
       </template>
       <template v-slot:[`item.role`]="{ item }">
@@ -28,11 +38,12 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
+
 const headers = ref([
   {
     title: "Nome",
-    value: "userName",
+    value: "displayName",
     align: "center",
   },
   {
@@ -52,13 +63,30 @@ const headers = ref([
     align: "center",
   },
 ]);
-const items = ref([
-  {
-    email: "vitorferronato@gmail.com",
-    userName: "Vitor Ferronato",
-    role: "admin",
-  },
-]);
+
+let isLoading = ref(false);
+const items = ref([{}]);
+const getUsers = async () => {
+  isLoading.value = true;
+
+  try {
+    const { data } = await useFetch("/api/users");
+    items.value =
+      data?.value?.map((el) => ({
+        ...el,
+        role: el?.customClaims?.role,
+      })) ?? [];
+  } catch (error) {
+    console.log(error);
+    snackbar("Erro ao buscar usuários", "error");
+  }
+
+  isLoading.value = false;
+};
+
+onMounted(() => {
+  getUsers();
+});
 </script>
 
 <style lang="scss" scoped>
