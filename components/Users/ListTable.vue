@@ -146,8 +146,6 @@ const getUsers = async () => {
 
 let tableLoading = ref(false);
 const editUser = async (user) => {
-  console.log("usuário", user);
-
   tableLoading.value = true;
   let request = {
     ...user,
@@ -156,7 +154,6 @@ const editUser = async (user) => {
   };
 
   delete request.customClaims;
-  console.log("request", request);
   const { data } = await useFetch(`/api/users/${user.uid}`, {
     method: "PUT",
     body: user,

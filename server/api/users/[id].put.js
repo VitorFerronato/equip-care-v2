@@ -3,7 +3,6 @@ import { auth } from "../../utils/firebaseAdmin";
 export default defineEventHandler(async (event) => {
   const body = await readBody(event);
   const userId = event.context.params.id;
-  console.log('params',body);
 
   const { name, email, phone, type } = body;
 
