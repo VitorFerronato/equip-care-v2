@@ -86,35 +86,31 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import { ref } from "vue";
 
 const emit = defineEmits(["createUser"]);
 const props = defineProps({
   isLoading: {
     type: Boolean,
-    default: false
-  }
-})
+    default: false,
+  },
+});
 const hidePassword = ref(true);
 
-const permissionItems = computed(() => {
-  let items = [
-    {
-      text: "Admin",
-      value: "admin",
-    },
-    {
-      text: "Gerente",
-      value: "manager",
-    },
-    {
-      text: "Coordenador",
-      value: "coordinator",
-    },
-  ];
-
-  return items;
-});
+const permissionItems = ref([
+  {
+    text: "Admin",
+    value: "admin",
+  },
+  {
+    text: "Gerente",
+    value: "manager",
+  },
+  {
+    text: "Coordenador",
+    value: "coordinator",
+  },
+]);
 
 const form = ref(null);
 const formData = ref({
