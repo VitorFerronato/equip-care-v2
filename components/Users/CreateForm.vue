@@ -103,12 +103,8 @@ const permissionItems = ref([
     value: "admin",
   },
   {
-    text: "Gerente",
-    value: "manager",
-  },
-  {
-    text: "Coordenador",
-    value: "coordinator",
+    text: "Padrão",
+    value: "common",
   },
 ]);
 

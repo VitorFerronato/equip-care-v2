@@ -16,7 +16,8 @@ import {
   VCombobox,
   VCard,
   VRow,
-  VCol
+  VCol,
+  VDialog
 } from "vuetify/components";
 import * as directives from "vuetify/directives";
 
@@ -37,7 +38,8 @@ export default defineNuxtPlugin((nuxtApp) => {
       VDataTable,
       VCard,
       VRow,
-      VCol
+      VCol,
+      VDialog
     },
     directives,
   });

@@ -4,7 +4,7 @@
     <v-data-table
       v-else
       :headers="headers"
-      :items="items"
+      :items="users"
       :disabled="tableLoading"
       :loading="tableLoading"
       :items-per-page="1000000"
@@ -23,7 +23,12 @@
             {{ item.displayName }}
           </div>
 
-          <Dsg-Text-Field v-else v-model="item.displayName" class="mb-1" />
+          <Dsg-Text-Field
+            v-else
+            v-model="item.displayName"
+            @keyup.enter="editUser(item)"
+            class="mb-1"
+          />
         </div>
       </template>
 
@@ -33,7 +38,12 @@
             {{ item.email }}
           </div>
 
-          <Dsg-Text-Field v-else v-model="item.email" class="mb-1" />
+          <Dsg-Text-Field
+            v-else
+            v-model="item.email"
+            @keyup.enter="editUser(item)"
+            class="mb-1"
+          />
         </div>
       </template>
 
@@ -49,7 +59,12 @@
             {{ item.role?.text ? item?.role?.text : item.role }}
           </div>
 
-          <Dsg-Combobox v-model="item.role" :items="permissionItems" v-else />
+          <Dsg-Combobox
+            v-model="item.role"
+            :items="permissionItems"
+            @keyup.enter="editUser(item)"
+            v-else
+          />
         </div>
       </template>
 
@@ -58,24 +73,29 @@
           v-if="!item.isEditing"
           class="d-flex align-center justify-center ga-2"
         >
-          <v-icon @click="item.isEditing = true" size="25">
-            mdi-pencil-box-outline
-          </v-icon>
-          <v-icon @click="deleteItem(item)" color="red" size="25">
-            mdi-delete-outline
-          </v-icon>
+          <Dsg-Icon-Btn
+            :iconName="'mdi-pencil-outline'"
+            @click="item.isEditing = true"
+          />
+
+          <Users-Delete-Modal :user="item" @updateUserList="updateUserList" />
         </div>
 
         <div
           v-if="item.isEditing"
           class="d-flex align-center justify-center ga-2"
         >
-          <v-icon @click="item.isEditing = false" color="red" size="25">
-            mdi-close-box
-          </v-icon>
-          <v-icon @click="editUser(item)" color="green" size="25">
-            mdi-checkbox-marked
-          </v-icon>
+          <Dsg-Icon-Btn
+            :btnColor="'green'"
+            :iconName="'mdi-check-outline'"
+            @click="editUser(item)"
+          />
+
+          <Dsg-Icon-Btn
+            :btnColor="'red'"
+            :iconName="'mdi-close'"
+            @click="item.isEditing = false"
+          />
         </div>
       </template>
     </v-data-table>
@@ -123,14 +143,15 @@ const permissionItems = ref([
   },
 ]);
 
-let isLoading = ref(true);
-const items = ref([{}]);
+let isLoading = ref(false);
+const users = ref([{}]);
 const getUsers = async () => {
   isLoading.value = true;
 
   try {
     const { data } = await useFetch("/api/users");
-    items.value =
+
+    users.value =
       data?.value?.map((el) => ({
         ...el,
         isEditing: false,
@@ -147,26 +168,37 @@ const getUsers = async () => {
 let tableLoading = ref(false);
 const editUser = async (user) => {
   tableLoading.value = true;
-  let request = {
-    ...user,
-    name: user.displayName,
-    type: user?.role?.value ? user.role.value : user.role,
-  };
 
-  delete request.customClaims;
-  const { data } = await useFetch(`/api/users/${user.uid}`, {
-    method: "PUT",
-    body: user,
-  });
-  console.log(data.value);
+  try {
+    let request = {
+      ...user,
+      name: user.displayName,
+      type: user?.role?.value ? user.role.value : user.role,
+    };
+
+    delete request.customClaims;
+    await useFetch(`/api/users/${user.uid}`, {
+      method: "PUT",
+      body: request,
+    });
+  } catch (error) {
+    console.log(error);
+    snackbar("Erro ao editar usuário", "error");
+    getUsers();
+  }
+
   user.isEditing = false;
   tableLoading.value = false;
+};
+
+const updateUserList = (userId) => {
+  if (userId) {
+    users.value = users.value.filter((user) => user.uid !== userId);
+    snackbar("Usuário excluido com sucesso", "success");
+  }
 };
 
 onMounted(() => {
   getUsers();
 });
 </script>
-
-<style lang="scss" scoped>
-</style>

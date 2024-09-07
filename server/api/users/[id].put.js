@@ -14,7 +14,6 @@ export default defineEventHandler(async (event) => {
   }
 
   try {
-    // Atualizar os campos do usuário (nome, email, telefone)
     const updateData = {};
 
     if (name) updateData.displayName = name;
@@ -23,7 +22,6 @@ export default defineEventHandler(async (event) => {
 
     const userRecord = await auth.updateUser(userId, updateData);
 
-    // Se a role (type) for passada, atualize as claims personalizadas
     if (type) {
       await auth.setCustomUserClaims(userId, { role: type });
     }
@@ -35,7 +33,7 @@ export default defineEventHandler(async (event) => {
       displayName: userRecord.displayName,
       email: userRecord.email,
       phoneNumber: userRecord.phoneNumber,
-      role: type || "unchanged", // role atualizado ou permanece o mesmo
+      role: type || "unchanged",
     };
   } catch (error) {
     return {
