@@ -13,6 +13,7 @@ export default defineNuxtPlugin((nuxtApp) => {
     appId: appId,
   };
 
+  console.log('firebaseconfigr', firebaseConfig);
   let app;
   if (getApps().length === 0) {
     app = initializeApp(firebaseConfig);

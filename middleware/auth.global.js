@@ -1,9 +1,9 @@
 // middleware/auth.js
 
 export default defineNuxtRouteMiddleware((to, from) => {
-  const userStore = useUserStore();
+  const AuthenticationStore = useAuthenticationStore();
 
-  if (!userStore.token && to.path == "/") return navigateTo("/login");
+  if (!AuthenticationStore.token && to.path == "/") return navigateTo("/login");
 
-  if (to.path == "/login" && userStore.token) return navigateTo("/");
+  if (to.path == "/login" && AuthenticationStore.token) return navigateTo("/");
 });

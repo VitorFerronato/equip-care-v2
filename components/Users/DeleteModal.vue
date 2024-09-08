@@ -3,16 +3,15 @@
     <Dsg-Icon-Btn
       :iconName="'mdi-delete-outline'"
       :btnColor="'red'"
-      @click="isModalOpen = true"
+      @click="UserStore.deleteModal = true"
     />
-
     <v-dialog
-      v-if="isModalOpen"
-      v-model="isModalOpen"
-      :persistent="isLoading"
+      v-if="UserStore.deleteModal"
+      v-model="UserStore.deleteModal"
+      :persistent="UserStore.deleteUserLoading"
       width="600"
     >
-      <v-card :disabled="isLoading" class="pa-4">
+      <v-card :disabled="UserStore.deleteUserLoading" class="pa-4">
         <p class="text-h5">Excluir usuário</p>
 
         <p class="my-4">
@@ -22,7 +21,7 @@
         <div class="d-flex flex-column bg-body-color ga-2 pa-2 mb-4">
           <div class="d-flex align-center ga-1">
             <v-icon size="20" color="#1e3363">mdi-account-outline</v-icon>
-            {{ user.displayName }}
+            {{ user }}
           </div>
           <div class="d-flex align-center ga-1">
             <v-icon size="20" color="red">mdi-email-outline</v-icon>
@@ -37,17 +36,17 @@
         <div class="d-flex align-center justify-end">
           <Dsg-Btn
             :title="'Cancelar'"
-            :disabled="isLoading"
-            @click="isModalOpen = false"
+            :disabled="UserStore.deleteUserLoading"
+            @click="UserStore.deleteModal = false"
             color="red"
             variant="outlined"
             class="mr-4"
           />
           <Dsg-Btn
             :title="'Excluir'"
-            :disabled="isLoading"
-            :loading="isLoading"
-            @click="deleteUser"
+            :disabled="UserStore.deleteUserLoading"
+            :loading="UserStore.deleteUserLoading"
+            @click="closeModal"
             color="red"
           />
         </div>
@@ -59,33 +58,15 @@
 <script setup>
 import { ref } from "vue";
 
+import { useUserStore } from "~/stores/userStore.js";
+const UserStore = useUserStore();
+
 const props = defineProps({
   user: {
     type: Object,
     required: true,
   },
 });
-
-const emit = defineEmits(["updateUserList"]);
-const isModalOpen = ref(false);
-
-let isLoading = ref(false);
-const deleteUser = async () => {
-  isLoading.value = true;
-
-  try {
-    await useFetch(`/api/users/${props?.user?.uid}`, {
-      method: "DELETE",
-    });
-    emit("updateUserList", props?.user?.uid ?? null);
-  } catch (error) {
-    console.log(error);
-    snackbar("Erro ao exluir usuário", "error");
-  }
-
-  isModalOpen.value = false;
-  isLoading.value = false;
-};
 </script>
 
 <style lang="scss" scoped>

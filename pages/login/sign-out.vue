@@ -15,14 +15,14 @@ definePageMeta({
   layout: "",
 });
 
-import { useUserStore } from "~/stores/userStore";
-const UserStore = useUserStore();
+import { useAuthenticationStore } from "~/stores/authenticationStore.js";
+const AuthenticationStore = useAuthenticationStore();
 
 import { useRouter } from "vue-router";
 const router = useRouter();
 
 const logout = async () => {
-  await UserStore.logout();
+  await AuthenticationStore.logout();
   router.push("/login");
 };
 

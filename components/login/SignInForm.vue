@@ -32,8 +32,8 @@
 <script setup>
 import { ref } from "vue";
 
-import { useUserStore } from "~/stores/userStore";
-const UserStore = useUserStore();
+import { useAuthenticationStore } from "~/stores/authenticationStore.js";
+const AuthenticationStore = useAuthenticationStore();
 
 import { useRouter } from "vue-router";
 const router = useRouter();
@@ -50,7 +50,7 @@ const validateForm = async () => {
     const { valid } = await form.value.validate();
 
     if (valid) {
-      const isValid = await UserStore.login(email.value, password.value);
+      const isValid = await AuthenticationStore.login(email.value, password.value);
       if (isValid) router.push("/");
       else snackbar("Email ou senha incorreto!", "error");
     }
