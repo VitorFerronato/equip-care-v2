@@ -1,0 +1,18 @@
+{
+  "users": [
+    {
+      "displayName": "Vitor Ferronato",
+      "email": "vitorferronato@gmail.com",
+      "customClaims": { "role": "coordinator" },
+      "uuid": "asdawdwad",
+      "phoneNumber": 4984474
+    },
+    {
+      "displayName": "Vitor Ferronato",
+      "email": "vitorferronato@gmail.com",
+      "customClaims": { "role": "admin" },
+      "uuid": "asdawdwad",
+      "phoneNumber": 4984474
+    }
+  ]
+}

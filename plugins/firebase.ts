@@ -2,7 +2,14 @@ import { initializeApp, getApp, getApps } from "firebase/app";
 import { getAuth } from "firebase/auth";
 
 export default defineNuxtPlugin((nuxtApp) => {
-  const { apiKey, authDomain, projectId, storageBucket, messagingSenderId, appId } = useRuntimeConfig().public;
+  const {
+    apiKey,
+    authDomain,
+    projectId,
+    storageBucket,
+    messagingSenderId,
+    appId,
+  } = useRuntimeConfig().public;
 
   const firebaseConfig = {
     apiKey: apiKey,
@@ -13,7 +20,6 @@ export default defineNuxtPlugin((nuxtApp) => {
     appId: appId,
   };
 
-  console.log('firebaseconfigr', firebaseConfig);
   let app;
   if (getApps().length === 0) {
     app = initializeApp(firebaseConfig);

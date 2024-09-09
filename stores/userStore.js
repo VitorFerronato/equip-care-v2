@@ -2,12 +2,21 @@ import { defineStore } from "pinia";
 
 export const useUserStore = defineStore("user", {
   state: () => ({
+    currentRoles: [
+      {
+        text: "Admin",
+        value: "Admin",
+      },
+      {
+        text: "Padrão",
+        value: "Padrão",
+      },
+    ],
     userList: [],
     getUsersLoading: false,
     createUserLoading: false,
     editUserLoading: false,
     deleteUserLoading: false,
-    deleteModal: false,
   }),
 
   actions: {
@@ -32,6 +41,7 @@ export const useUserStore = defineStore("user", {
 
     async createUser(formData) {
       this.createUserLoading = true;
+      let isValid;
 
       try {
         await useFetch("/api/users", {
@@ -40,12 +50,15 @@ export const useUserStore = defineStore("user", {
         });
 
         snackbar("Sucesso ao criar usuário", "success");
+        isValid = true;
       } catch (error) {
         console.log(error);
         snackbar("Erro ao criar usuário", "error");
+        isValid = false;
       }
 
       this.createUserLoading = false;
+      return isValid;
     },
 
     async editUser(user) {
@@ -76,25 +89,30 @@ export const useUserStore = defineStore("user", {
 
     async deleteUser(user) {
       this.deleteUserLoading = true;
+      let isValid;
 
       try {
         await useFetch(`/api/users/${user?.uid}`, {
           method: "DELETE",
         });
 
-        this.removeUserById(user?.uid);
+        this.userList = this.userList.filter((el) => el.uid !== user?.uid);
+        snackbar("Sucesso ao excluir usuário", "success");
+        isValid = true;
       } catch (error) {
         console.log(error);
+        isValid = false;
         snackbar("Erro ao exluir usuário", "error");
       }
 
       this.deleteUserLoading = false;
-      this.deleteModal = false;
-    },
-
-    removeUserById(userID) {
-      this.users = this.users.filter((user) => user.uid !== userID);
-      snackbar("Usuário excluido com sucesso", "success");
+      return isValid;
     },
   },
 });
+
+// const validateFields = (user) => {
+// let emailIsValid = rulesEmail(user.email)
+// let userNameIsValid = noNumbersOrSymbols(user.displayName)
+// console.log(emailIsValid, userNameIsValid);
+// };

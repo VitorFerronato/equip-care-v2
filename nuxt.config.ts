@@ -7,7 +7,7 @@ export default defineNuxtConfig({
       serviceAccount: process.env.FIRE_ADMIN_SA || "",
     },
     public: {
-      apiKey:  process.env.FIRE_API_KEY,
+      apiKey: process.env.FIRE_APIKEY,
       authDomain: process.env.FIRE_AUTHDOMAIN,
       projectId: process.env.FIRE_PROJECTID,
       storageBucket: process.env.FIRE_STORAGEBUCKET,

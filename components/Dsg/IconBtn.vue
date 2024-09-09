@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-btn  size="x-small" :color="btnColor" icon>
+    <v-btn :color="btnColor" v-bind="$attrs" size="x-small" icon>
       <v-icon :color="iconColor">{{ iconName }}</v-icon>
     </v-btn>
   </div>

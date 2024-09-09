@@ -15,6 +15,10 @@
 
 <style lang="scss" scoped>
 .header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 100000;
   height: $header-height;
 }
 </style>

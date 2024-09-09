@@ -33,7 +33,7 @@
           <Dsg-Combobox
             v-model="formData.role"
             :title="'Tipo de usuário*'"
-            :items="permissionItems"
+            :items="UserStore.currentRoles"
             :rules="[rulesRequired]"
             placeholder="Selecione"
             variant="filled"
@@ -88,6 +88,9 @@
 <script setup>
 import { ref } from "vue";
 
+import { useUserStore } from "~/stores/userStore.js";
+const UserStore = useUserStore();
+
 const emit = defineEmits(["createUser"]);
 const props = defineProps({
   isLoading: {
@@ -96,17 +99,6 @@ const props = defineProps({
   },
 });
 const hidePassword = ref(true);
-
-const permissionItems = ref([
-  {
-    text: "Admin",
-    value: "admin",
-  },
-  {
-    text: "Padrão",
-    value: "common",
-  },
-]);
 
 const form = ref(null);
 const formData = ref({
@@ -121,13 +113,7 @@ const validateForm = async () => {
   if (form.value) {
     const { valid } = await form.value.validate();
 
-    if (valid) {
-      emit("createUser", {
-        ...formData.value,
-        phone: formatPhoneNumber(formData.value.phone),
-        role: formData.value?.role?.value,
-      });
-    }
+    if (valid) emit("createUser", formData.value);
   }
 };
 
@@ -141,5 +127,12 @@ const cancelChanges = async () => {
     confirmPassword: null,
   };
 };
-</script>
 
+const cleanForm = () => {
+  formData.value = {};
+};
+
+defineExpose({
+  cleanForm,
+});
+</script>

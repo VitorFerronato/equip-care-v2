@@ -43,8 +43,8 @@ export function maxCharLength(maxChart) {
   };
 }
 
-export const noNumbersOrSymbols = (value) => {
+export function noNumbersOrSymbols(value) {
   if (!value) return true;
   const regex = /^[A-Za-z\s]+$/;
   return regex.test(value) || "O nome não pode conter números ou símbolos";
-};
+}

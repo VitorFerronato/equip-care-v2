@@ -3,11 +3,10 @@
     <Dsg-Icon-Btn
       :iconName="'mdi-delete-outline'"
       :btnColor="'red'"
-      @click="UserStore.deleteModal = true"
+      @click="isModalOpen = true"
     />
     <v-dialog
-      v-if="UserStore.deleteModal"
-      v-model="UserStore.deleteModal"
+      v-model="isModalOpen"
       :persistent="UserStore.deleteUserLoading"
       width="600"
     >
@@ -21,7 +20,7 @@
         <div class="d-flex flex-column bg-body-color ga-2 pa-2 mb-4">
           <div class="d-flex align-center ga-1">
             <v-icon size="20" color="#1e3363">mdi-account-outline</v-icon>
-            {{ user }}
+            {{ user.displayName }}
           </div>
           <div class="d-flex align-center ga-1">
             <v-icon size="20" color="red">mdi-email-outline</v-icon>
@@ -37,7 +36,7 @@
           <Dsg-Btn
             :title="'Cancelar'"
             :disabled="UserStore.deleteUserLoading"
-            @click="UserStore.deleteModal = false"
+            @click="isModalOpen = false"
             color="red"
             variant="outlined"
             class="mr-4"
@@ -46,7 +45,7 @@
             :title="'Excluir'"
             :disabled="UserStore.deleteUserLoading"
             :loading="UserStore.deleteUserLoading"
-            @click="closeModal"
+            @click="handleDeleteUser"
             color="red"
           />
         </div>
@@ -56,7 +55,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 
 import { useUserStore } from "~/stores/userStore.js";
 const UserStore = useUserStore();
@@ -67,6 +66,19 @@ const props = defineProps({
     required: true,
   },
 });
+const isModalOpen = ref(false);
+
+const handleDeleteUser = async () => {
+
+  try {
+    let isValid = await UserStore.deleteUser(props.user)
+
+    if(isValid) isModalOpen.value = false
+  } catch (error) {
+    console.log(error);
+  }
+
+}
 </script>
 
 <style lang="scss" scoped>
